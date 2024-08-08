@@ -130,8 +130,11 @@ const ChatPage = () => {
           </div>
           {/* Chat Area */}
           <div className="flex w-3/4 flex-col">
-            <div className="bg-gray-100 mb-4 h-64 overflow-y-scroll rounded-lg p-4 shadow-inner">
-              <ul>
+            <div
+              className="bg-gray-100 mb-4 overflow-y-scroll rounded-lg p-4 shadow-inner"
+              style={{ height: "calc(100vh - 310px)" }}
+            >
+              <ul className="flex flex-col">
                 {messages
                   .filter(
                     (msg) => msg.roomId === `${user.email}-${receiver.email}`,
@@ -139,7 +142,12 @@ const ChatPage = () => {
                   .map((msg, index) => (
                     <li
                       key={index}
-                      className="mb-2 rounded-lg bg-green-100 p-2"
+                      className={`mb-2 w-4/12 rounded-lg p-2 ${
+                        msg.senderId === user.id &&
+                        msg.senderName === user.firstName
+                          ? "self-end bg-blue-100 text-right"
+                          : "self-start bg-green-100 text-left"
+                      }`}
                     >
                       <span className="text-black">{msg.message}</span> <br />
                       <small>
@@ -175,4 +183,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default ChatPage
