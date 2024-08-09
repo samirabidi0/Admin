@@ -1,34 +1,35 @@
+"use client";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import AddExpertAction from "./actions";
+import { useRouter } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Next.js Form Layout | TailAdmin - Next.js Dashboard Template",
-  description:
-    "This is Next.js Form Layout page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template",
-};
+const styleInput =
+  "w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700";
 
-// background    String
-// certificate  String
 const FormLayout = () => {
+  const router = useRouter();
+  const handleAddExpert = (e) => {
+    AddExpertAction(e, router);
+  };
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Create Expert Account" />
-
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-1">
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <form action="#">
-              <div className="p-6.5">
+            <div className="p-6.5">
+              <form action={handleAddExpert}>
                 <div className="mb-4.5">
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                     First Name
                   </label>
                   <input
                     type="text"
+                    id="firstName"
+                    name="firstName"
                     placeholder="Enter your first name"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700"
+                    className={styleInput}
                   />
                 </div>
                 <div className="mb-4.5">
@@ -37,8 +38,10 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="text"
+                    id="lastName"
+                    name="lastName"
                     placeholder="Enter your last name"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700"
+                    className={styleInput}
                   />
                 </div>
 
@@ -48,8 +51,10 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="email"
+                    id="email"
+                    name="email"
                     placeholder="Enter your email address"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700"
+                    className={styleInput}
                   />
                 </div>
                 <div className="mb-4.5">
@@ -57,9 +62,11 @@ const FormLayout = () => {
                     Phone Number
                   </label>
                   <input
-                    type="number"
+                    type="text"
+                    id="phone"
+                    name="phone"
                     placeholder="Enter your phone number"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700"
+                    className={styleInput}
                   />
                 </div>
                 <div className="mb-4.5">
@@ -68,18 +75,10 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="password"
+                    id="password"
+                    name="password"
                     placeholder="Enter password"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700"
-                  />
-                </div>
-                <div className="mb-5.5">
-                  <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Re-type Password
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="Re-enter password"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700"
+                    className={styleInput}
                   />
                 </div>
                 <div>
@@ -87,16 +86,32 @@ const FormLayout = () => {
                     Bio
                   </label>
                   <textarea
+                    id="bio"
+                    name="bio"
                     rows={6}
                     placeholder="Bio"
                     className="mb-3 w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-green-700"
                   ></textarea>
                 </div>
+                <div className="mb-4">
+                  <label
+                    className="text-gray-700 mb-2 block text-sm font-bold"
+                    htmlFor="image"
+                  >
+                    Upload profile picture
+                  </label>
+                  <input
+                    className="w-full cursor-pointer rounded-lg border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-whiter file:px-5 file:py-3 file:hover:bg-green-500 file:hover:bg-opacity-10 focus:border-green-700 active:border-green-700 disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-form-strokedark dark:file:bg-white/30 dark:file:text-white dark:focus:border-green-700"
+                    id="image"
+                    type="file"
+                    name="image"
+                  />
+                </div>
                 <button className="flex w-full justify-center rounded bg-green-500 p-3 font-medium text-gray hover:bg-opacity-90">
-                  Sign Up
+                  Create Expert
                 </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>

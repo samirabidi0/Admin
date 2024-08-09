@@ -203,7 +203,7 @@ export default function Page() {
                     <div>
                    {item.price}
                    <FaEdit
-                    className="text-blue-500 cursor-pointer "
+                    className="text-blue-500 cursor-pointer flex"
                     onClick={() => handleEdit(item)}
                   />
                     </div>

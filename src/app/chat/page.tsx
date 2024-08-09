@@ -98,7 +98,7 @@ const ChatPage = () => {
           {/* List of Farmers */}
           <div className="w-1/4 pr-4">
             <div className="bg-gray-100 h-full rounded-lg p-4 shadow-inner">
-              <h2 className="mb-4 text-lg font-semibold">Farmers</h2>
+              <h2 className="mb-4 text-lg font-semibold">Conversations</h2>
               <ul>
                 {farmers.map((farmer) => (
                   <li
@@ -183,4 +183,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage
+export default ChatPage;

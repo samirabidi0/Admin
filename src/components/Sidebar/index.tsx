@@ -1,12 +1,12 @@
 "use client";
-
-import React, { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -83,6 +83,7 @@ const menuGroups = [
         ),
         label: "Forms",
         route: "#",
+        permission: "admin",
         children: [
           {
             label: "Create expert",
@@ -229,6 +230,8 @@ const menuGroups = [
 ];
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const token = Cookies.get("authToken");
+  const decodedToken: any = jwtDecode(token);
   const pathname = usePathname();
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
 
@@ -284,14 +287,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </h3>
 
                 <ul className="mb-6 flex flex-col gap-1.5">
-                  {group.menuItems.map((menuItem, menuIndex) => (
-                    <SidebarItem
-                      key={menuIndex}
-                      item={menuItem}
-                      pageName={pageName}
-                      setPageName={setPageName}
-                    />
-                  ))}
+                  {group.menuItems
+                    ?.filter(
+                      (group) =>
+                        group?.permission === decodedToken.role ||
+                        group?.permission === "all",
+                    )
+                    .map((menuItem, menuIndex) => (
+                      <SidebarItem
+                        key={menuIndex}
+                        item={menuItem}
+                        pageName={pageName}
+                        setPageName={setPageName}
+                        role={decodedToken.role}
+                      />
+                    ))}
                 </ul>
               </div>
             ))}

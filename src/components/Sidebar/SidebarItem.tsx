@@ -3,7 +3,7 @@ import Link from "next/link";
 import SidebarDropdown from "@/components/Sidebar/SidebarDropdown";
 import { usePathname } from "next/navigation";
 
-const SidebarItem = ({ item, pageName, setPageName }: any) => {
+const SidebarItem = ({ item, pageName, setPageName, role }: any) => {
   const handleClick = () => {
     const updatedPageName =
       pageName !== item.label.toLowerCase() ? item.label.toLowerCase() : "";
@@ -59,7 +59,7 @@ const SidebarItem = ({ item, pageName, setPageName }: any) => {
               pageName !== item.label.toLowerCase() && "hidden"
             }`}
           >
-            <SidebarDropdown item={item.children} />
+            <SidebarDropdown role={role} item={item.children} />
           </div>
         )}
       </li>
