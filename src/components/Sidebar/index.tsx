@@ -95,6 +95,11 @@ const menuGroups = [
             route: "/forms/form-elements",
             permission: "admin",
           },
+          {
+            label: "Create news",
+            route: "/forms/addnews",
+            permission: "admin",
+          },
         ],
       },
       {

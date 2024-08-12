@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CardDataStats from "../CardDataStats";
-import { getFarmers, getExperts } from "@/app/hooks";
+import { getFarmers, getExperts, getNews } from "@/app/hooks";
+import Link from "next/link";
 
 const ECommerce: React.FC = () => {
   const [farmers, setFarmers] = useState<any>([]);
   const [experts, setExperts] = useState<any>([]);
+  const [news, setNews] = useState<any>([]);
   useEffect(() => {
     const fetchFarmers = async () => {
       try {
@@ -23,12 +25,23 @@ const ECommerce: React.FC = () => {
         console.error("Failed to fetch farmers", error);
       }
     };
+    async function fetchData() {
+      try {
+        const newsList = await getNews();
+        const selectNews = newsList.slice(newsList.length - 3, newsList.length);
+        setNews(selectNews);
+      } catch (error) {
+        console.error("Failed to fetch data", error);
+      }
+    }
+    fetchData();
     fetchFarmers();
     fetchExperts();
   }, []);
+  useEffect(() => {}, []);
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
+      <div className="m-0 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <CardDataStats title="Total farmers" total={farmers?.length}>
           <svg
             className="fill-primary dark:fill-white"
@@ -52,7 +65,7 @@ const ECommerce: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total application" total="0">
+        <CardDataStats title="Total news post" total={news?.length}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -96,9 +109,51 @@ const ECommerce: React.FC = () => {
           </svg>
         </CardDataStats>
       </div>
-
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5"></div>
-      {/* // TODO: add latest 3 community posts and a view more button */}
+      <div className="mt-10 flex justify-end">
+        {news.length && <Link href={"/news"}>View more</Link>}
+      </div>
+      <div className="mt-2 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {news?.map((item) => (
+          <div
+            key={item.id}
+            className="border-gray-200 dark:bg-gray-800 dark:border-gray-700 m-w-50 transform-gpu rounded-lg border shadow-lg transition-transform duration-300 hover:scale-105"
+          >
+            <img className="rounded-t-lg" src={item.image} alt="" />
+            <div className="p-5">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-black dark:text-white">
+                {item.title}
+              </h5>
+              <div className="group relative">
+                <p
+                  className="mb-4 max-h-20 overflow-hidden font-normal text-black dark:text-white"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: 3, // Limits the text to 3 lines
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "normal",
+                  }}
+                >
+                  {item.content}
+                </p>
+                {item.content.length > 100 && (
+                  <div
+                    className="m-w-80 absolute left-0 z-10 hidden rounded-lg bg-black p-2 text-sm text-white shadow-lg group-hover:block"
+                    style={{
+                      bottom: "-10%",
+                      left: "-10%",
+                      transform: "translateY(50px)",
+                    }}
+                  >
+                    {item.content}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   );
 };

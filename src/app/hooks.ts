@@ -23,3 +23,11 @@ export const getMessages = async () => {
     console.error("error in getMessages method", error);
   }
 };
+export const getNews = async () => {
+  try {
+    const { data } = await axios.get("/news/getAllNews");
+    return data;
+  } catch (error) {
+    console.error("error in getNews method", error);
+  }
+};
