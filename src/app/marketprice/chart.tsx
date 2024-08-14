@@ -12,7 +12,7 @@ interface Price {
   createdAt: string;
 }
 
-const ChartOne: React.FC<{ productId: number }> = ({ productId }) => {
+const ChartOne: React.FC<{ }> = () => {
   const [series, setSeries] = useState<any[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -74,7 +74,7 @@ const ChartOne: React.FC<{ productId: number }> = ({ productId }) => {
     };
 
     fetchData();
-  }, [productId]);
+  }, []);
 
   const getOption = (): EChartsOption => ({
     tooltip: {
